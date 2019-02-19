@@ -1,0 +1,70 @@
+<!--index.wxml-->
+<!-- <view class='index'>
+  <view class='index-hd'>待会诊列表</view>
+  <view class='index-bd'>
+  <view class="kind-list">
+       <view class="kind-list-item" wx:for="{{consultList}}" wx:for-item="item"  wx:key="*consultList" bindtap="getConsultDetail" data-item="{{item}}">
+          <view class="navigator-text">{{item._consultationInfo.ConsultationID}}</view>
+           <view class="navigator-arrow" catchtap="videoCall"></view>
+        </view>
+    </view>
+  </view>
+</view> -->
+
+<view class="container">
+    <!-- <view wx:if="{{remind}}" class="remind-box">
+        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+        <block wx:else>
+          <image class="remind-img" src="/images/index/nothing.png"></image>
+          <text class="remind-text">{{remind}}</text>
+        </block>
+    </view> -->
+    <block>
+     <!-- wx:else -->
+       <text class="service-process-title">待会诊总数（{{consultCount}}条）</text>
+        <block wx:for="{{consultList}}" wx:for-item="item" wx:key="ConsultationID">
+            <view class="process review-process">
+                <view class="process-hd">
+                    <!-- <image class="review-process-icon" src="/images/core/bx/bx_{{item.state}}.png"></image> -->
+                    <view class="order-number-name">
+                        <text>会诊编号：{{item._consultationInfo.ConsultationID}}</text>
+                    </view>
+                    <view class="process-state">
+                        <text class="process-state-name process-state-waited">待会诊</text>
+                    </view>
+                </view>
+                <view class="process-bd">
+                    <view class="process-item">
+                        <view class="process-item-bd">
+                            <text class="process-item-name">患者姓名</text>
+                        </view>
+                        <view class="process-item-ft">
+                            <text class="process-item-info">{{item._consultationPatientInfo.PatientName}}</text>
+                        </view>
+                    </view>
+                    <view class="process-item">
+                        <view class="process-item-bd">
+                            <text class="process-item-name">会诊时间</text>
+                        </view>
+                        <view class="process-item-ft">
+                            <text class="process-item-info">{{item._consultationInfo.BookingTime?item._consultationInfo.BookingTime:'由医师确认'}}</text>
+                        </view>
+                    </view>
+                    <view class="process-item">
+                        <view class="process-item-bd">
+                            <text class="process-item-name">申请时间</text>
+                        </view>
+                        <view class="process-item-ft">
+                            <text class="process-item-info">{{item._consultationInfo.ApplyTime}}</text>
+                        </view>
+                    </view>
+                </view> 
+                <navigator url="index_detail?id={{item._consultationInfo.ConsultationID}}">
+                    <view class="service-detail-open">
+                        <text>查看详情</text>
+                    </view>
+                </navigator>
+            </view>
+        </block>
+    </block>
+</view>

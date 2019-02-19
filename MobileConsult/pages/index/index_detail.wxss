@@ -1,0 +1,91 @@
+.container{
+    background-color: #f7f7f7;
+}
+
+.service-nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    background: #fff;
+    background: rgba(255,255,255,.9);
+    border-bottom: 1rpx solid #eee;
+    margin-bottom: 10rpx;
+}
+.service-nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 110rpx;
+    border-right: 1rpx solid #eee;
+}
+.service-apply-btn{
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+    color: #7acfa6;
+    background: rgba(122,207,166,.1);
+}
+.service-apply-btn:active{
+    background: #fff;
+}
+.service-nav-hd {
+    color: #777;
+}
+.service-nav-bd {
+    display: flex;
+    justify-content: center;
+}
+.service-nav-value {
+    font-size: 30pt;
+    color: #7acfa6;
+    font-weight: bold;
+    line-height: 150%;
+    padding: 0 20rpx 0 30rpx;
+}
+.service-apply-icon{
+    flex-shrink: 0;
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 15rpx;
+}
+
+.work-sheet-panel{
+    display: flex;
+    flex-direction: column;
+    margin-top: 110rpx; 
+}
+.work-sheet-title{
+    color: #888;
+    padding: 5rpx 0 10rpx 30rpx;
+}
+.work-sheet{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+}
+
+.work-sheet{
+    padding: 30rpx;
+}
+
+.work-sheet-item{
+    display: flex;
+    align-items: flex-start;
+    min-height: 65rpx;
+}
+.work-sheet-bd{
+    color: #888;
+    width: 55pt;
+}
+.work-sheet-ft{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}

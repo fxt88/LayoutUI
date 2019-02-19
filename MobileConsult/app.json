@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index",
+    "pages/index/index_detail",
+    "partials/videoCall/videoCall",
+    "partials/forwardMultiContact/forwardMultiContact",
+    "partials/videoCallMeeting/videoCallMeeting"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#7acfa6",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "移动会诊",
+    "backgroundColor": "#7acfa6",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": true
+  }
+}

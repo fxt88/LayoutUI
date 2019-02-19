@@ -1,0 +1,111 @@
+<view class="container">
+    <view wx:if="{{remind}}" class="remind-box">
+        <image wx:if="{{remind == '加载中'}}" class="remind-img" src="/images/index/loading.gif"></image>
+        <block wx:else>
+          <image class="remind-img" src="/images/index/nothing.png"></image>
+          <text class="remind-text">{{remind}}</text>
+        </block>
+    </view>
+    <block wx:else> 
+        <view class="service-nav">
+        <navigator class="service-nav-item service-apply-btn" url="bx_apply">
+            <!-- <image class="service-apply-icon" src="/images/core/bx.png"></image> -->
+             <view class="navigator-arrow" catchtap="videoCall">进入会诊室</view>
+        </navigator> 
+        </view>
+        <view class="work-sheet-panel">
+            <text class="work-sheet-title">患者详情</text>  
+            <view class="work-sheet">
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxlxm}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_fwqym}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxr}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxdh}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxdd}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bt}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">病史</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxnr}}</text>
+                    </view>
+                </view>
+            </view>
+
+             <text class="work-sheet-title">申请信息</text>  
+            <view class="work-sheet">
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxlxm}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_fwqym}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxr}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxdh}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxdd}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">患者名称</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bt}}</text>
+                    </view>
+                </view>
+                <view class="work-sheet-item">
+                    <text class="work-sheet-bd">病史</text>
+                    <view class="work-sheet-ft">
+                        <text>{{detail.wx_bxnr}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+
+    </block>
+</view>
