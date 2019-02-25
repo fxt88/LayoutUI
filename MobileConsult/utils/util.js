@@ -144,7 +144,8 @@ function post(params) {
       return '';
     }
     else {
-      var currentUser = getSession('currentUser');
+      let state = store.getState()
+      var currentUser = state.currentUser;
       if (currentUser) {
         return currentUser.Header.Token;
       }

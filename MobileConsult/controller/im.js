@@ -156,9 +156,9 @@ export default class IMController {
     store.dispatch({
       type: 'Login_LoginSuccess'
     })
-    // wx.navigateTo({
-    //   url: '../index/index',
-    // })
+    wx.navigateTo({
+      url: '../index/index',
+    })
   }
   /**
  * 会话更新：收到消息、发送消息、设置当前会话、重置会话未读数 触发

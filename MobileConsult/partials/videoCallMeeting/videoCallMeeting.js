@@ -1,3 +1,6 @@
+import IMController from '../../controller/im.js'
+import NIM from '../../vendors/NIM_Web_NIM_weixin_v5.8.0.js'
+import NetcallController from '../../controller/netcall.js'
 import {post, validStringType,showToast, calculateMeetingPosition } from '../../utils/util.js'
 const app = getApp()
 let store = app.store
@@ -11,7 +14,8 @@ Page({
     infoOfBeCalled: {}, // 被叫信息
     userlist: [], //正在通话列表
     callList: [], // 主叫列表，[{account,nick,avatar}]
-    currentGroup: null, // 当前群组信息
+    currentGroup: null, 
+    currentConsultInfo:{}
   },
 
   onLoad: function (options = {}) {
@@ -20,15 +24,22 @@ Page({
     })
     let state = store.getState()
     console.log(state)
-    let teamName = '多人通话'
-    if (options.beCalling) { // 被叫
-      teamName = state.groupList[state.netcallGroupCallInfo.content.teamId].name
-      let accounts = state.netcallGroupCallInfo.content.members
+    let teamName = '在线会诊'
+      // 计算所有人的位置
+
+      let accounts = [];
+      let userList = app.globalData.currentConsultInfo._consultationDoctorInfoList
+      for (var i = 0; i < userList.length; i++) {
+        if (userList[i].DoctorID){
+          let userId = userList[i].DoctorID.toLowerCase()
+          accounts.push("hstest_ychz_" + userId)
+        }
+      }
       accounts = this.adjustAccountPosition(accounts)
       let self = this
       app.globalData.nim.getUsers({
         accounts: accounts,
-        done: function(error, users) {
+        done: function (error, users) {
           if (error) {
             console.log(error)
             return
@@ -36,26 +47,11 @@ Page({
           self.setData({
             userlist: calculateMeetingPosition(users)
           })
+
+          self.startNetcallCall()
         }
       })
-      this.setData({
-        beCalling: true,
-        infoOfBeCalled: state.netcallGroupCallInfo
-      })
-    } else { // 主叫
-      teamName = state.currentGroup.name
-      // 计算所有人的位置
-      let updateUserList = calculateMeetingPosition([{
-          account: state.userInfo.account,
-          nick: state.userInfo.nick
-        }, ...state.netcallCallList])
-      this.setData({
-        callList: state.netcallCallList,
-        currentGroup: state.currentGroup,
-        userlist: updateUserList
-      })
-      this.startNetcallCall()
-    }
+
     wx.setNavigationBarTitle({
       title: '移动会诊',
     })
@@ -73,10 +69,7 @@ Page({
    */
   startNetcallCall() {
     let self = this
-    let accounts = this.data.callList.map(user => user.account)
-    let alluserAccounts = this.data.userlist.map(user => user.account)
-    let currentGroup = this.data.currentGroup
-    let channelName = `team-${currentGroup.teamId}-${new Date().getTime()}`
+    let channelName = `team-${app.globalData.currentConsultInfo._consultationInfo.ConsultationID}`
     // 呼叫
     app.globalData.netcall.createChannel({
       channelName: channelName
@@ -97,7 +90,6 @@ Page({
             })
             // {uid,cid,account,accountUidMap}
             self.setData({
-              beCalling: false,
               loginUser: {
                 uid: data.uid,
                 cid: data.cid,
@@ -108,6 +100,36 @@ Page({
             })
             wx.createLivePusherContext(this).start()
           })
+      })
+      .catch((err)=>{
+        console.log('createChannelErr', JSON.stringify(err));
+        if (err.event.code == 417) {
+          console.log("房间已创建加入房间：" + channelName);
+          app.globalData.netcall.joinChannel({
+            mode: 0,
+            channelName: channelName,
+            role: 0
+          })
+            .then((data) => {
+              console.info('加入房间成功', data)
+              // 添加uid
+              let userlist = Object.assign([], self.data.userlist)
+              userlist.map(user => {
+                user.uid = data.accountUidMap[user.account]
+              })
+              // {uid,cid,account,accountUidMap}
+              self.setData({
+                loginUser: {
+                  uid: data.uid,
+                  cid: data.cid,
+                  account: data.account
+                },
+                userlist,
+                accountToUidMap: data.accountUidMap,
+              })
+              wx.createLivePusherContext(this).start()
+            })
+        }
       })
   },
   

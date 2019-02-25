@@ -1,3 +1,4 @@
+import IMController from '../../controller/im.js'
 import { post, validStringType, showToast, setSession, getSession } from '../../utils/util.js'
 import { connect } from '../../redux/index.js'
 
@@ -55,7 +56,7 @@ let pageConfig = {
     
     // 发送消息开始登陆
     store.dispatch({
-      type: 'Request_StartPost'
+      type: 'Login_StartLogin'
     })
     // 发送请求
     post({
@@ -68,20 +69,20 @@ let pageConfig = {
       })
       if (res.data.data.Header.StatusCode == 0) {
         // 成功
+        console.log("登陸成功")
         app.globalData.currentUser = res.data.data;
         setSession("currentUser", res.data.data);
-        wx.navigateTo({
-           url: '../index/index',
+        store.dispatch({
+          type: 'CurrentUser_Info',
+          payload: res.data.data
         })
-        // new IMController({
-        //   token: res.data.data.Body.UserID,
-        //   account: 'hstest_ychz_' + res.data.data.Body.UserID
-        // })
+        self.getNeteaseAccount();
       } else {
         // 给出本地出错提示
-        self.setData({
-          errorMessage: res.data.data.Header.Message
+        store.dispatch({
+          type: 'Register_RegisterSuccess'
         })
+        showToast('error', '失败，请重试！')
       }
     }, err => {
       store.dispatch({
@@ -91,6 +92,39 @@ let pageConfig = {
       console.log(err)
     })
 
+  },
+  /**
+* 获取Netease账号
+*/
+  getNeteaseAccount: function () {
+    store.dispatch({
+      type: 'Request_StartPost'
+    })
+    post({
+      url: app.globalData.ENVIRONMENT_CONFIG.url + 'Netease/GetNeteaseAccount',
+      data: { _neteaseBusiness: 1 }
+    }).then(res => {
+      if (res.data.data.Header.StatusCode == 0) {
+        // 成功
+        console.log("獲取賬號成功")
+        new IMController({
+          token: app.globalData.currentUser.Body.UserID.toLowerCase(),
+          account: res.data.data.Body.Account.toLowerCase()
+        })
+      } else {
+        // 给出本地出错提示
+        console.log(JSON.stringify(res.data.data))
+        store.dispatch({
+          type: 'Register_RegisterSuccess'
+        })
+        showToast('error', '失败，请重试！')
+      }
+    }, err => {
+      store.dispatch({
+        type: 'Register_RegisterSuccess'
+      })
+      showToast('error', '失败，请重试！')
+    })
   }
 }
 let mapStateToData = (state) => {

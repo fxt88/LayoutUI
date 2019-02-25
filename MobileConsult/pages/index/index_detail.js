@@ -15,9 +15,7 @@ const pageConfig = {
   data: {
     remind: '加载中',
     detail: {},   //会诊详情
-    state: [] ,    //处理状态(申请-审核-接受-完成-驳回.退回)
-    chatType: '', //聊天类型 advanced 高级群聊 normal 讨论组群聊 p2p 点对点聊天
-    chatTo: '', //聊天对象account
+    state: []   //处理状态(申请-审核-接受-完成-驳回.退回)
   },
 
   /**
@@ -58,8 +56,8 @@ const pageConfig = {
   },
 
   /**
- * 获取Netease账号
- */
+* 获取Netease账号
+*/
   GetNeteaseAccount: function () {
     store.dispatch({
       type: 'Request_StartPost'
@@ -68,10 +66,6 @@ const pageConfig = {
       url: app.globalData.ENVIRONMENT_CONFIG.url + 'Netease/GetNeteaseAccount',
       data: { _neteaseBusiness: 1 }
     }).then(res => {
-      // 更新本地视图
-      store.dispatch({
-        type: 'Request_EndPost'
-      })
       if (res.data.data.Header.StatusCode == 0) {
         // 成功
         new IMController({
@@ -80,7 +74,7 @@ const pageConfig = {
         })
       } else {
         // 给出本地出错提示
-        self.setData({
+        this.setData({
           errorMessage: res.data.data.Header.Message
         })
       }
@@ -114,6 +108,7 @@ const pageConfig = {
     //     url: `../videoCall/videoCall?callee=${this.data.chatTo}`,
     //   })
     // }
+    app.globalData.currentConsultInfo = this.data.consultInfo;
     wx.navigateTo({
       url: `../../partials/videoCallMeeting/videoCallMeeting`,
     })
@@ -124,21 +119,11 @@ const pageConfig = {
       consultID: options.id
     });
     this.getConsultDetail();
-    this.GetNeteaseAccount();
+    // this.GetNeteaseAccount();
   },
 
   onShow: function onShow() {
     let that = this;
-    that.resetStore();
-  },
-
-  /**
-   * 重置store数据
-   */
-  resetStore: function resetStore() {
-    store.dispatch({
-      type: 'Reset_All_State'
-    });
   },
 }
 

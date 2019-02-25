@@ -104,23 +104,12 @@ const pageConfig = {
 
   onLoad() {
     let that = this;
-    that.resetStore();
     that.getConsult();
   },
 
   onShow: function onShow() {
     let that = this;
-    that.resetStore();
-  },
-
-  /**
-   * 重置store数据
-   */
-  resetStore: function resetStore() {
-    store.dispatch({
-      type: 'Reset_All_State'
-    });
-  },
+  }
 }
 
 const mapStateToData = (state) => {
